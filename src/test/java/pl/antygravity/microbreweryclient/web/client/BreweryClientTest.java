@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.antygravity.microbreweryclient.web.model.BeerDto;
+import pl.antygravity.microbreweryclient.web.model.CustomerDto;
 
 import java.net.URI;
 import java.util.UUID;
@@ -17,7 +18,7 @@ class BreweryClientTest {
     BreweryClient client;
 
     @Test
-    void getBeerById() {
+    void testGetBeerById() {
         BeerDto dto = client.getBeerById(UUID.randomUUID());
 
         assertNotNull(dto);
@@ -47,5 +48,37 @@ class BreweryClientTest {
     void testDeleteBeer() {
 
         client.deleteBeer(UUID.randomUUID());
+    }
+
+    @Test
+    void testGetCustomerById() {
+        CustomerDto customerDto = client.getCustomerById(UUID.randomUUID());
+
+        assertNotNull(customerDto);
+    }
+
+    @Test
+    void testSavedNewCustomer() {
+        //given
+        CustomerDto customerDto = CustomerDto.builder().name("John Doe").build();
+
+        URI uri = client.saveNewCustomer(customerDto);
+
+        assertNotNull(uri);
+
+        System.out.println(uri);
+    }
+
+    @Test
+    void testUpdateCustomer() {
+        //given
+        CustomerDto customerDto = CustomerDto.builder().name("John Doe").build();
+
+        client.updateCustomer(UUID.randomUUID(), customerDto);
+    }
+
+    @Test
+    void testDeleteCustomer() {
+        client.deleteCustomer(UUID.randomUUID());
     }
 }
